@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.mc_retete_culinare"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.mc_retete_culinare"
