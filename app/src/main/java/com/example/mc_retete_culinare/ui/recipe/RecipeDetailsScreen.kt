@@ -1,7 +1,9 @@
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -10,12 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.mc_retete_culinare.data.Recipe
 import com.example.mc_retete_culinare.ui.theme.MCReteteCulinareTheme
 import com.example.mc_retete_culinare.R
@@ -39,15 +46,7 @@ fun DetailScreen(recipe: Recipe) {
             fontSize = 14.sp,
             modifier = Modifier.fillMaxWidth()
         )
-//        Image(
-//            painter = rememberImagePainter(recipe.strMealThumb),
-//            contentDescription = null,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(200.dp)
-//                .padding(vertical = 8.dp),
-//            contentScale = ContentScale.Crop
-//        )
+        MealPhotoCard(photo = recipe.strMealThumb ?: "")
         Text(
             text = recipe.strTags ?: "",
             style = MaterialTheme.typography.bodyMedium,
@@ -106,7 +105,9 @@ fun RecipeDetails (
 ) {
 
     Card(
-        modifier = modifier, colors = CardDefaults.cardColors(
+        modifier = modifier
+            .verticalScroll(rememberScrollState()),
+        colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
@@ -126,6 +127,7 @@ fun RecipeDetails (
                     .padding(dimensionResource(id = R.dimen.padding_medium))
             )
         }
+        MealPhotoCard(photo = recipe.strMealThumb ?: "")
         Column (
             modifier = Modifier
                 .fillMaxWidth()
@@ -288,6 +290,25 @@ private fun RecipeInstructions(
     )
 }
 
+@Composable
+fun MealPhotoCard(photo: String, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier,
+        shape = MaterialTheme.shapes.medium,
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(context = LocalContext.current).data(photo)
+                .crossfade(true).build(),
+            error = painterResource(R.drawable.ic_broken_image),
+            placeholder = painterResource(R.drawable.loading_img),
+            contentDescription = stringResource(R.string.meal_photo),
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewDetailScreen() {
@@ -298,7 +319,7 @@ fun PreviewDetailScreen() {
         strCategory = "Sample Category",
         strArea = "Sample Area",
         strInstructions = "Sample Instructions",
-        strMealThumb = "https://via.placeholder.com/150",
+        strMealThumb = "https://media.istockphoto.com/id/1398630614/ro/fotografie/cheeseburger-bacon-pe-un-coc-pr%C4%83jit.jpg?s=2048x2048&w=is&k=20&c=VNzMnPnwccqIFB8NFSX8dfyVVd_Son1XQuFcTUx41FE=",
         strTags = "Sample, Tags",
         strYoutube = "https://youtube.com",
         strIngredient1 = "Ingredient1",
