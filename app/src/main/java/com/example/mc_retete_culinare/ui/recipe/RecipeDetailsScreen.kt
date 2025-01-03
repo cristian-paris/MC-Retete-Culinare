@@ -2,7 +2,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -26,77 +25,13 @@ import coil.request.ImageRequest
 import com.example.mc_retete_culinare.data.Recipe
 import com.example.mc_retete_culinare.ui.theme.MCReteteCulinareTheme
 import com.example.mc_retete_culinare.R
+import com.example.mc_retete_culinare.ui.navigation.NavigationDestination
 
-@Composable
-fun DetailScreen(recipe: Recipe) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = recipe.strMeal,
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Text(
-            text = recipe.strDrinkAlternate ?: "",
-            style = MaterialTheme.typography.bodyMedium,
-            fontSize = 14.sp,
-            modifier = Modifier.fillMaxWidth()
-        )
-        MealPhotoCard(photo = recipe.strMealThumb ?: "")
-        Text(
-            text = recipe.strTags ?: "",
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        BasicText(text = "Category: ${recipe.strCategory}")
-        BasicText(text = "Area: ${recipe.strArea}")
-        BasicText(text = "Instructions: ${recipe.strInstructions}")
-        BasicText(text = "YouTube: ${recipe.strYoutube}")
-
-        // Display ingredients followed by their measures in a table-like format
-        Column {
-            for (i in 1..20) {
-                val ingredient = recipe.getIngredient(i)
-                val measure = recipe.getMeasure(i)
-                if (!ingredient.isNullOrEmpty() && !measure.isNullOrEmpty()) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp)
-                    ) {
-                        Text(
-                            text = ingredient,
-                            modifier = Modifier
-                                .weight(1f)
-                                .background(Color(0xff8bb1c6))
-                                .padding(8.dp),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = measure,
-                            modifier = Modifier
-                                .weight(1f)
-                                .background(Color(0xff8bb1c6))
-                                .padding(8.dp),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-            }
-        }
-
-        BasicText(text = "Source: ${recipe.strSource}")
-        BasicText(text = "Image Source: ${recipe.strImageSource}")
-        BasicText(text = "Creative Commons Confirmed: ${recipe.strCreativeCommonsConfirmed}")
-        BasicText(text = "Date Modified: ${recipe.dateModified}")
-    }
+object RecipeDetailsDestination : NavigationDestination {
+    override val route = "recipe_details"
+    override val titleRes = R.string.recipe_detail_title
+    const val recipeIdArg = "recipeId"
+    val routeWithArgs = "$route/{${recipeIdArg}"
 }
 
 @Composable
