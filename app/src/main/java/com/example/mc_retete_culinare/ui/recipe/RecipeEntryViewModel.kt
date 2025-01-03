@@ -8,18 +8,22 @@ import com.example.mc_retete_culinare.data.Recipe
 import com.example.mc_retete_culinare.data.RecipeRepository
 
 class RecipeEntryViewModel (private val recipeRepository: RecipeRepository) : ViewModel() {
-    var itemUiState by mutableStateOf(RecipeUiState())
+    var recipeUiState by mutableStateOf(RecipeUiState())
         private set
 
-    suspend fun addRecipe(recipe: Recipe) {
-        recipeRepository.insertRecipe(itemUiState.recipeDetails.toRecipe())
+    suspend fun addRecipe() {
+        recipeRepository.insertRecipe(recipeUiState.recipeDetails.toRecipe())
     }
 
+    fun updateUiState(recipeDetails: RecipeDetails) {
+        recipeUiState =
+            RecipeUiState(recipeDetails = recipeDetails, isEntryValid = true)
+    }
 }
 
 data class RecipeUiState(
     val recipeDetails: RecipeDetails = RecipeDetails(),
-    val isEntryValid: Boolean = false
+    val isEntryValid: Boolean = true
 )
 
 data class RecipeDetails(

@@ -15,9 +15,9 @@ interface RecipeDao {
     @Query("SELECT * FROM recipes WHERE idMeal = :id")
     fun getRecipeById(id: String): Flow<Recipe>
     @Insert(onConflict = androidx.room.OnConflictStrategy.IGNORE)
-    fun insertRecipe(recipe: Recipe)
+    suspend fun insertRecipe(recipe: Recipe)
     @Update
-    fun updateRecipe(recipe: Recipe)
+    suspend fun updateRecipe(recipe: Recipe)
     @Delete
-    fun deleteRecipe(recipe: Recipe)
+    suspend fun deleteRecipe(recipe: Recipe)
 }
