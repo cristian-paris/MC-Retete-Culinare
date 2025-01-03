@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">MC-Retete-Culinare</string>
+    <string name="id_meal">ID Meal</string>
+    <string name="str_meal">Meal</string>
+    <string name="str_drink_alternate">Drink Alternate</string>
+    <string name="str_category">Category</string>
+    <string name="str_area">Area</string>
+    <string name="str_instructions">Instructions</string>
+    <string name="str_meal_thumb">Meal Thumbnail</string>
+    <string name="str_tags">Tags</string>
+    <string name="str_youtube">YouTube</string>
+    <string name="str_ingredient1">Ingredient 1</string>
+    <string name="str_ingredient2">Ingredient 2</string>
+    <string name="str_measure1">Measure 1</string>
+    <string name="str_measure2">Measure 2</string>
+    <string name="str_source">Source</string>
+    <string name="str_image_source">Image Source</string>
+    <string name="str_creative_commons_confirmed">Creative Commons Confirmed</string>
+    <string name="date_modified">Date Modified</string>
 </resources>
