@@ -75,9 +75,12 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation("io.coil-kt:coil-compose:2.4.0")
     //Room
     implementation(libs.androidx.room.runtime)
     ksp("androidx.room:room-compiler:${rootProject.extra["room_version"]}")
     implementation(libs.androidx.room.ktx)
-
+    // Testing
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
 }
