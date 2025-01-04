@@ -4,10 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -32,7 +34,8 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     RecipeNavHost(
                         navController = navController,
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        firstRecipeId = 1
                     )
                 }
             }
@@ -50,8 +53,9 @@ object HomeDestination : NavigationDestination {
 fun Greeting(
     name: String,
     navigateToItemEntry: () -> Unit,
-    navigateToItemUpdate: (Int) -> Unit,
-             modifier: Modifier = Modifier) {
+    navigateToFirstRecipe: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Scaffold(
         modifier = modifier,
         floatingActionButton = {
@@ -60,16 +64,18 @@ fun Greeting(
             }
         }
     ) { innerPadding ->
-        Text(
-            text = "Hello $name!",
-            modifier = Modifier.padding(innerPadding)
-        )
+        Column(modifier = Modifier.padding(innerPadding)) {
+            Text(text = "Hello $name!")
+            Button(onClick = navigateToFirstRecipe) {
+                Text(text = "Go to First Recipe")
+            }
+        }
     }
 }
 
 @Composable
 fun RecipeApp(navController: NavHostController = rememberNavController()) {
-    RecipeNavHost(navController = navController)
+    RecipeNavHost(navController = navController, firstRecipeId = 1)
 }
 
 

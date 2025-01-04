@@ -7,7 +7,7 @@ class RecipeRepositoryImpl(private val recipeDao: RecipeDao) : RecipeRepository 
         return recipeDao.getRecipes()
     }
 
-    override fun getRecipeById(id: String): Flow<Recipe?> {
+    override fun getRecipeById(id: Int): Flow<Recipe?> {
         return recipeDao.getRecipeById(id)
     }
 
