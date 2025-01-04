@@ -31,6 +31,10 @@ class RecipeDetailsViewModel(
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
     }
+
+    suspend fun deleteItem() {
+        recipeRepository.deleteRecipe(uiState.value.recipeDetails.toRecipe())
+    }
 }
 
 data class RecipeDetailsUiState(

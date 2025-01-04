@@ -5,16 +5,25 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,6 +48,7 @@ import com.example.mc_retete_culinare.ui.navigation.NavigationDestination
 import com.example.mc_retete_culinare.ui.recipe.RecipeDetailsUiState
 import com.example.mc_retete_culinare.ui.recipe.RecipeDetailsViewModel
 import com.example.mc_retete_culinare.ui.recipe.toRecipe
+import kotlinx.coroutines.launch
 
 object RecipeDetailsDestination : NavigationDestination {
     override val route = "recipe_details"
@@ -71,6 +81,12 @@ fun RecipeDetailsScreen (
     ) { innerPadding ->
         RecipeDetailsBody(
             recipeDetailsUiState = uiState.value,
+            onDelete = {
+                coroutineScope.launch {
+                    viewModel.deleteItem()
+                    navigateBack()
+                }
+            },
             modifier = modifier
                 .padding(
                     start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
@@ -182,6 +198,7 @@ fun MealPhotoCard(photo: String, modifier: Modifier = Modifier) {
 @Composable
 fun RecipeDetailsBody(
     recipeDetailsUiState: RecipeDetailsUiState,
+    onDelete: () -> Unit,
     modifier: Modifier = Modifier,
 ){
     val recipe = recipeDetailsUiState.recipeDetails.toRecipe()
@@ -193,6 +210,8 @@ fun RecipeDetailsBody(
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
     ) {
+        var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -289,8 +308,48 @@ fun RecipeDetailsBody(
                 .fillMaxWidth()
                 .padding(dimensionResource(id = R.dimen.padding_medium))
         )
+        OutlinedButton(
+            onClick = { deleteConfirmationRequired = true },
+            shape = MaterialTheme.shapes.small,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xffff918f),
+                contentColor = Color(0xff000000)
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(stringResource(R.string.delete))
+        }
+        if (deleteConfirmationRequired) {
+            DeleteConfirmationDialog(
+                onDeleteConfirm = {
+                    deleteConfirmationRequired = false
+                    onDelete()
+                },
+                onDeleteCancel = { deleteConfirmationRequired = false },
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+            )
+        }
 
     }
+}
+@Composable
+private fun DeleteConfirmationDialog(
+    onDeleteConfirm: () -> Unit, onDeleteCancel: () -> Unit, modifier: Modifier = Modifier
+) {
+    AlertDialog(onDismissRequest = { /* Do nothing */ },
+        title = { Text(stringResource(R.string.attention)) },
+        text = { Text(stringResource(R.string.delete_question)) },
+        modifier = modifier,
+        dismissButton = {
+            TextButton(onClick = onDeleteCancel) {
+                Text(stringResource(R.string.no))
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDeleteConfirm) {
+                Text(stringResource(R.string.yes))
+            }
+        })
 }
 
 @Preview(showBackground = true)
