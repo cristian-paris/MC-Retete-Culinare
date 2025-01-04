@@ -69,4 +69,9 @@
     <string name="str_measure19_req">Measure 19*</string>
     <string name="str_measure20_req">Measure 20*</string>
     <string name="edit_recipe_title">Edit Recipe</string>
+    <string name="attention">Attention</string>
+    <string name="delete_question">Are you sure you want to delete?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete">Delete</string>
 </resources>

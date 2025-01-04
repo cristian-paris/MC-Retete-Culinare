@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     RecipeNavHost(
                         navController = navController,
                         modifier = Modifier.padding(innerPadding),
-                        firstRecipeId = 1
+                        firstRecipeId = 2
                     )
                 }
             }
@@ -75,7 +75,7 @@ fun Greeting(
 
 @Composable
 fun RecipeApp(navController: NavHostController = rememberNavController()) {
-    RecipeNavHost(navController = navController, firstRecipeId = 1)
+    RecipeNavHost(navController = navController, firstRecipeId = 2)
 }
 
 
