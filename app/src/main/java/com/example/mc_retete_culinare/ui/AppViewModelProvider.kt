@@ -2,16 +2,33 @@ package com.example.mc_retete_culinare.ui
 
 import android.app.Application
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.mc_retete_culinare.RecipesApplication
+import com.example.mc_retete_culinare.ui.recipe.RecipeDetailsViewModel
+import com.example.mc_retete_culinare.ui.recipe.RecipeEditViewModel
 import com.example.mc_retete_culinare.ui.recipe.RecipeEntryViewModel
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
             RecipeEntryViewModel(inventoryApplication().container.recipeRepository)
+        }
+
+        initializer {
+            RecipeEditViewModel(
+                this.createSavedStateHandle(),
+                inventoryApplication().container.recipeRepository
+            )
+        }
+
+        initializer {
+            RecipeDetailsViewModel(
+                this.createSavedStateHandle(),
+                inventoryApplication().container.recipeRepository
+            )
         }
     }
 }
