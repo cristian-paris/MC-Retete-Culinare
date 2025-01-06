@@ -1,25 +1,43 @@
-package com.example.mc_retete_culinare.ui.recipe
+package com.example.mc_retete_culinare.ui.screens
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.mc_retete_culinare.data.Recipe
 import com.example.mc_retete_culinare.data.RecipeRepository
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-class RecipeEntryViewModel (private val recipeRepository: RecipeRepository) : ViewModel() {
+class OfflineRecipesViewModel(val recipeRepository: RecipeRepository) : ViewModel() {
     var recipeUiState by mutableStateOf(RecipeUiState())
-        private set
+
+    val offlineRecipes: StateFlow<OfflineRecipeUiState> =
+        recipeRepository.getRecipes().map { OfflineRecipeUiState(it) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+                initialValue = OfflineRecipeUiState()
+            )
 
     suspend fun addRecipe() {
         recipeRepository.insertRecipe(recipeUiState.recipeDetails.toRecipe())
     }
 
-    fun updateUiState(recipeDetails: RecipeDetails) {
-        recipeUiState =
-            RecipeUiState(recipeDetails = recipeDetails, isEntryValid = true)
+    suspend fun deleteRecipe() {
+        recipeRepository.deleteRecipe(recipeUiState.recipeDetails.toRecipe())
+    }
+
+    companion object {
+        private const val TIMEOUT_MILLIS = 5_000L
     }
 }
+
+data class OfflineRecipeUiState(val recipeList: List<Recipe> = listOf())
 
 data class RecipeUiState(
     val recipeDetails: RecipeDetails = RecipeDetails(),

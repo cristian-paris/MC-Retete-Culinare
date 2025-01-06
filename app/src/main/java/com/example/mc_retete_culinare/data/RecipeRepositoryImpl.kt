@@ -1,8 +1,11 @@
 package com.example.mc_retete_culinare.data
 
+import com.example.mc_retete_culinare.network.RecipeApiService
 import kotlinx.coroutines.flow.Flow
 
-class RecipeRepositoryImpl(private val recipeDao: RecipeDao) : RecipeRepository {
+class RecipeRepositoryImpl(
+    private val recipeDao: RecipeDao,
+) : RecipeRepository {
     override fun getRecipes(): Flow<List<Recipe>> {
         return recipeDao.getRecipes()
     }
