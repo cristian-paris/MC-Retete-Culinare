@@ -126,6 +126,7 @@ fun RecipesApp(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
+                    top = innerPadding.calculateTopPadding(),
                     start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
                     end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
                     bottom = innerPadding.calculateBottomPadding()
