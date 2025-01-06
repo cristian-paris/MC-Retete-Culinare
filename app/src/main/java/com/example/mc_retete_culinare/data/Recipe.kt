@@ -2,7 +2,9 @@ package com.example.mc_retete_culinare.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Entity(tableName = "recipes")
 class Recipe (
     @PrimaryKey(autoGenerate = true)

@@ -5,6 +5,7 @@
     <string name="str_drink_alternate">Drink Alternate</string>
     <string name="str_category">Category</string>
     <string name="str_area">Area</string>
+    <string name="str_area_format">Area: %s</string>
     <string name="str_instructions">Instructions</string>
     <string name="str_meal_thumb">Meal Thumbnail</string>
     <string name="str_tags">Tags</string>
@@ -28,6 +29,13 @@
     <string name="recipe_tags_req">Recipe Tags*</string>
     <string name="required_fields">*required fields</string>
     <string name="recipe_detail_title">Item Details</string>
+    <string name="top_app_bar_app_name">Recipes</string>
+    <string name="top_app_bar_search_new_recipe">Search for a new recipe</string>
+    <string name="loading">Loading</string>
+    <string name="loading_failed">Failed to load</string>
+    <string name="retry">Retry</string>
+    <string name="about">About</string>
+    <string name="expand_button_content_description">See more or less information about a dog.</string>
     <string name="str_ingredient1_req">Ingredient 1*</string>
     <string name="str_ingredient2_req">Ingredient 2*</string>
     <string name="str_ingredient3_req">Ingredient 3*</string>
